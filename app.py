@@ -150,6 +150,19 @@ def predict_tumor():
             os.remove(file_path)
         return jsonify({'error': str(e)}), 500
 
+@app.route('/', methods=['GET', 'OPTIONS'])
+def checkServer():
+    # Handle preflight OPTIONS request
+    if request.method == 'OPTIONS':
+        response = make_response()
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+        response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        return response
+        
+    return jsonify({'message': 'Server is running'}), 200
+
+
 @app.route('/predict_bone_route', methods=['POST', 'OPTIONS'])
 def predict_bone_route():
     # Handle preflight OPTIONS request
